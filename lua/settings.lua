@@ -6,7 +6,8 @@ See :help set-option and help: option-list
 local execute = vim.api.nvim_command
 local setoption = vim.api.nvim_set_option
 
-execute('syntax enable') -- syntax highlighting
+execute('filetype plugin indent on') -- filetype detection, plugin and indent
+execute('syntax on') -- syntax highlighting
 
 -- Tabs and indenting
 execute('set autoindent') -- take indent for new line from previous line

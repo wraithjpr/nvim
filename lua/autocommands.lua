@@ -8,6 +8,10 @@ vim.cmd([[
 
         " Highlight on yank. See help:lua-highlight
         autocmd TextYankPost * silent! lua vim.highlight.on_yank()
+
+        " Markdown
+        autocmd FileType markdown setlocal wrap
+        autocmd FileType markdown setlocal spell
     augroup END
 ]])
 
