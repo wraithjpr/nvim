@@ -21,12 +21,20 @@ end
 
 keymap('i', '<Tab>', 'v:lua.smart_tab()', {expr = true, noremap = true})
 
--- Leader
+--[[
+-- Leader. Default is '\'. To change timeout in ms, use :set timeoutlen.
 vim.api.nvim_set_var('mapleader', t'<Space>')
 vim.api.nvim_set_var('maplocalleader', t'<Space>')
+--]]
+
+-- Better Escape. If <S-CR> doesn't work, then <C-CR> may do.
+keymap('n', '<CR>', 'i', {noremap = true, silent = true})
+keymap('i', '<Esc>', '<Esc>`^', {noremap = true, silent = true})
+keymap('v', '<Esc>', 'o<Esc>', {noremap = true, silent = true})
+keymap('t', '<Esc>', '<C-\\><C-n>', {noremap = true, silent = true})
 
 -- Remove highlighting
-keymap('n', '<Leader><Leader>', ':noh<CR>', {noremap = true, silent = true})
+keymap('n', '<Space><Space>', ':noh<CR>', {noremap = true, silent = true})
 
 -- better window movement
 keymap('n', '<C-c>', '<C-w>c', {noremap = true, silent = true})
@@ -36,19 +44,16 @@ keymap('n', '<C-k>', '<C-w>k', {noremap = true, silent = true})
 keymap('n', '<C-l>', '<C-w>l', {noremap = true, silent = true})
 
 -- Terminal window navigation
-keymap('t', '<C-c>', '<C-\\><C-N><C-w>c', {noremap = true, silent = true})
-keymap('t', '<C-h>', '<C-\\><C-N><C-w>h', {noremap = true, silent = true})
-keymap('t', '<C-j>', '<C-\\><C-N><C-w>j', {noremap = true, silent = true})
-keymap('t', '<C-k>', '<C-\\><C-N><C-w>k', {noremap = true, silent = true})
-keymap('t', '<C-l>', '<C-\\><C-N><C-w>l', {noremap = true, silent = true})
-keymap('t', '<Esc>', '<C-\\><C-n>', {noremap = true, silent = true})
+keymap('t', '<C-h>', '<C-\\><C-n><C-w>h', {noremap = true, silent = true})
+keymap('t', '<C-j>', '<C-\\><C-n><C-w>j', {noremap = true, silent = true})
+keymap('t', '<C-k>', '<C-\\><C-n><C-w>k', {noremap = true, silent = true})
+keymap('t', '<C-l>', '<C-\\><C-n><C-w>l', {noremap = true, silent = true})
 
 -- insert mode window navigation
-keymap('i', '<C-c>', '<C-\\><C-N><C-w>c', {noremap = true, silent = true})
-keymap('i', '<C-h>', '<C-\\><C-N><C-w>h', {noremap = true, silent = true})
-keymap('i', '<C-j>', '<C-\\><C-N><C-w>j', {noremap = true, silent = true})
-keymap('i', '<C-k>', '<C-\\><C-N><C-w>k', {noremap = true, silent = true})
-keymap('i', '<C-l>', '<C-\\><C-N><C-w>l', {noremap = true, silent = true})
+keymap('i', '<C-h>', '<C-\\><C-n><C-w>h', {noremap = true, silent = true})
+keymap('i', '<C-j>', '<C-\\><C-n><C-w>j', {noremap = true, silent = true})
+keymap('i', '<C-k>', '<C-\\><C-n><C-w>k', {noremap = true, silent = true})
+keymap('i', '<C-l>', '<C-\\><C-n><C-w>l', {noremap = true, silent = true})
 
 -- resize with arrows
 keymap('n', '<C-Up>', ':resize -2<CR>', {noremap = true, silent = true})
@@ -69,6 +74,24 @@ keymap('x', 'K', ':move \'<-2<CR>gv-gv', {noremap = true, silent = true})
 keymap('x', 'J', ':move \'>+1<CR>gv-gv', {noremap = true, silent = true})
 
 -- Quick write
-keymap('n', '<Leader>w', ':w<CR>', {noremap = true})
-keymap('i', '<Leader>w', '<C-\\><C-N>:w<CR>a', {noremap = true})
+keymap('n', '<M-f>s', ':w<CR>', {noremap = true})
+keymap('i', '<M-f>s', '<C-\\><C-n>:w<CR>a', {noremap = true})
+
+-- Quick exit (buffer)
+keymap('n', '<M-f>c', ':bdelete<CR>', {noremap = true})
+keymap('i', '<M-f>c', '<C-\\><C-n>:bdelete<CR>', {noremap = true})
+keymap('n', '<M-f>x', ':xit<CR>', {noremap = true})
+keymap('i', '<M-f>x', '<C-\\><C-n>:xit<CR>', {noremap = true})
+
+-- External copy/paste
+keymap('n', '<M-e>c', '"+y', {noremap = true})
+keymap('n', '<M-e>p', '"+p', {noremap = true})
+keymap('n', '<M-e>P', '"+P', {noremap = true})
+keymap('n', '<M-y>', '"0y', {noremap = true})
+keymap('n', '<M-p>', '"0p', {noremap = true})
+keymap('n', '<M-P>', '"0P', {noremap = true})
+keymap('i', '<M-e>p', '"+p', {noremap = true})
+keymap('i', '<M-e>P', '"+P', {noremap = true})
+keymap('i', '<M-p>', '"0p', {noremap = true})
+keymap('i', '<M-P>', '"0P', {noremap = true})
 

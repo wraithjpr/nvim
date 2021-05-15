@@ -15,6 +15,15 @@ return require('packer').startup(
         -- Packer can manage itself
         use 'wbthomason/packer.nvim'
 
+        -- Colours
+        use 'marko-cerovac/material.nvim'
+
+        -- Window framework
+        use {
+            'hoob3rt/lualine.nvim',
+            requires = {'kyazdani42/nvim-web-devicons', opt = true}
+        }
+
         -- Pairs
         use 'windwp/nvim-autopairs'
         use 'tpope/vim-surround'

@@ -40,9 +40,8 @@ setoption(
 ) -- ignore these file types when completing names and in explorer
 
 -- Window behavior
-setoption('clipboard', 'unnamedplus') -- use the '+' register for yank, delete, change and put operations
+setoption('clipboard', 'unnamed') -- use the '+' register for yank, delete, change and put operations
 setoption('cmdheight', 2) -- number of lines to use for the command-line (default 1)
---setoption('columns', 9999) -- get the widest window possible (default 80 or terminal width)
 setoption('conceallevel', 0) -- make `` visible in markdown files
 setoption('inccommand', 'split') -- shows partial off-screen results in a preview window
 execute('set linebreak') -- wrap long lines
@@ -52,13 +51,18 @@ setoption('pumheight', 10) -- pop up menu has 10 items (default 0 - use availabl
 setoption('sidescroll', 0) -- Put the cursor in middle of the screen when wrap is off and cursor goes off screen (default 1)
 execute('set splitbelow') -- new window from split is below the current one
 execute('set splitright') -- new window is put right of the current one
-setoption('t_Co', '256') -- support 256 colours
-execute('set termguicolors')
 setoption('virtualedit', 'block,insert') -- useful for editing tables in Markdown
 execute('set visualbell') -- use visual bell instead of beeping
-setoption('updatetime', 1000) -- faster completion in milliseconds (default 4000)
+setoption('updatetime', 500) -- faster completion in milliseconds (default 4000)
 execute('set whichwrap+=<,>,[,]') -- move to next/previous line with theses keys
 execute('set wrap') -- wrap long lines
+
+-- Colours
+setoption('t_Co', '256') -- support 256 colours
+execute('set termguicolors') -- use true colour in the terminal
+execute('hi Cursor guifg=white guibg=white')
+execute('hi Cursor2 guifg=red guibg=red')
+setoption('guicursor', 'n-v-c:block-Cursor/lCursor,i-ci-ve:ver25-Cursor2/lCursor2,r-cr:hor20,o:hor50')
 
 -- Window title
 execute('set title') -- let Vim set the title of the window
