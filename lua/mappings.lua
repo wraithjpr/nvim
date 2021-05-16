@@ -5,21 +5,68 @@ My personal preferences for key mappings
 local keymap = vim.api.nvim_set_keymap
 
 --[[
-A better <TAB> that takes into account popup menus
+A better <TAB> that takes into account popup menus and compe completion menus.
 Equivalent to:
     inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 
-See https://github.com/nanotee/nvim-lua-guide#vimapinvim_replace_termcodes
+See:
+ https://github.com/nanotee/nvim-lua-guide#vimapinvim_replace_termcodes; and
+ https://github.com/hrsh7th/nvim-compe#how-to-use-tab-to-navigate-completion-menu
+
 --]]
-local function t(str)
+function t(str)
     return vim.api.nvim_replace_termcodes(str, true, true, true)
 end
 
+function check_back_space()
+    local col = vim.fn.col('.') - 1
+    if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
+        return true
+    else
+        return false
+    end
+end
+
 function _G.smart_tab()
-    return vim.fn.pumvisible() == 1 and t'<C-n>' or t'<Tab>'
+
+    if vim.fn.pumvisible() == 1 then
+        return t'<C-n>'
+    end
+
+--[[ TODO for snippets
+    if vim.fn.call('vsnip#available', {1}) == 1 then
+        return t'<Plug>(vsnip-expand-or-jump)'
+    end
+--]]
+
+    if not check_back_space() then
+        return vim.fn['compe#complete']()
+    end
+
+    return t'<Tab>'
+
+end
+
+function _G.s_smart_tab()
+
+    if vim.fn.pumvisible() == 1 then
+        return t'<C-p>'
+    end
+
+--[[ TODO for snippets
+    if vim.fn.call('vsnip#jumpable', {-1}) == 1 then
+        return t'<Plug>(vsnip-jump-prev)'
+    end
+--]]
+
+    return t'<S-Tab>'
+
 end
 
 keymap('i', '<Tab>', 'v:lua.smart_tab()', {expr = true, noremap = true})
+keymap('s', '<Tab>', 'v:lua.smart_tab()', {expr = true, noremap = true})
+keymap('i', '<S-Tab>', 'v:lua.s_smart_tab()', {expr = true, noremap = true})
+keymap('s', '<S-Tab>', 'v:lua.s_smart_tab()', {expr = true, noremap = true})
 
 --[[
 -- Leader. Default is '\'. To change timeout in ms, use :set timeoutlen.
@@ -94,4 +141,14 @@ keymap('i', '<M-e>p', '"+p', {noremap = true})
 keymap('i', '<M-e>P', '"+P', {noremap = true})
 keymap('i', '<M-p>', '"0p', {noremap = true})
 keymap('i', '<M-P>', '"0P', {noremap = true})
+
+-- Material colour scheme
+keymap('n', '<Leader>c', ':lua require(\'material.functions\').toggle_style()<CR>', { noremap = true, silent = true })
+
+-- Compe completion
+keymap('i', '<C-Space>', 'compe#complete()', {noremap = true, silent = true, expr = true})
+keymap('i', '<CR>', 'compe#confirm(\'<CR>\')', {noremap = true, silent = true, expr = true})
+keymap('i', '<C-e>', 'compe#close(\'<C-e>\')', {noremap = true, silent = true, expr = true})
+keymap('i', '<C-f>', 'compe#scroll({ \'delta\': +4 })', {noremap = true, silent = true, expr = true})
+keymap('i', '<C-b>', 'compe#scroll({ \'delta\': -4 })', {noremap = true, silent = true, expr = true})
 

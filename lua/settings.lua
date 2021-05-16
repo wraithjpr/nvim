@@ -24,7 +24,7 @@ execute('set relativenumber') -- show relative line number in front of each line
 setoption('signcolumn', 'yes') -- always show the sign column
 
 -- Search behaviour & code completion
-setoption('completeopt', 'menu,menuone,longest,preview') -- options for Insert mode completion
+setoption('completeopt', 'menuone,noselect') -- options for Insert mode completion; required by compe
 execute('set hlsearch') -- highlight search match
 execute('set ignorecase') -- ignore case in search patterns
 execute('set incsearch') -- show where the pattern matches as it's typed

@@ -24,6 +24,9 @@ return require('packer').startup(
             requires = {'kyazdani42/nvim-web-devicons', opt = true}
         }
 
+        -- Completion
+        use 'hrsh7th/nvim-compe'
+
         -- Pairs
         use 'windwp/nvim-autopairs'
         use 'tpope/vim-surround'
