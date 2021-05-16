@@ -24,6 +24,12 @@ return require('packer').startup(
             requires = {'kyazdani42/nvim-web-devicons', opt = true}
         }
 
+        -- Finder
+        use {
+            'nvim-telescope/telescope.nvim',
+            requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
+        }
+
         -- Completion
         use 'hrsh7th/nvim-compe'
 
