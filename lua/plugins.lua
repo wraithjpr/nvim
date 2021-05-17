@@ -24,10 +24,19 @@ return require('packer').startup(
             requires = {'kyazdani42/nvim-web-devicons', opt = true}
         }
 
+        -- Syntax
+        use {
+            'nvim-treesitter/nvim-treesitter',
+            requires = {'nvim-treesitter/nvim-treesitter-textobjects'},
+            run = ':TSUpdate',
+            config = [[require('jw-treesitter')]]
+        }
+
         -- Finder
         use {
             'nvim-telescope/telescope.nvim',
-            requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
+            requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}},
+            cmd = 'Telescope'
         }
 
         -- Completion

@@ -60,10 +60,14 @@ execute('set wrap') -- wrap long lines
 -- Colours
 setoption('t_Co', '256') -- support 256 colours
 execute('set termguicolors') -- use true colour in the terminal
-execute('hi Cursor guifg=white guibg=white')
-execute('hi Cursor2 guifg=red guibg=red')
+execute('highlight Cursor guifg=white guibg=white')
+execute('highlight Cursor2 guifg=red guibg=red')
 setoption('guicursor', 'n-v-c:block-Cursor/lCursor,i-ci-ve:ver25-Cursor2/lCursor2,r-cr:hor20,o:hor50')
 
 -- Window title
 execute('set title') -- let Vim set the title of the window
+
+-- Code folding
+setoption('foldmethod', 'expr')
+setoption('foldexpr', 'nvim_treesitter#foldexpr()')
 
