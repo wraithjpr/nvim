@@ -70,4 +70,6 @@ execute('set title') -- let Vim set the title of the window
 -- Code folding
 setoption('foldmethod', 'expr')
 setoption('foldexpr', 'nvim_treesitter#foldexpr()')
+setoption('foldcolumn', 'auto')
+setoption('foldenable', false)
 

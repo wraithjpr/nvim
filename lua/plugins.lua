@@ -16,12 +16,16 @@ return require('packer').startup(
         use 'wbthomason/packer.nvim'
 
         -- Colours
-        use 'marko-cerovac/material.nvim'
+        use {
+            'marko-cerovac/material.nvim',
+            config = [[require('jw-material')]]
+        }
 
         -- Window framework
         use {
             'hoob3rt/lualine.nvim',
-            requires = {'kyazdani42/nvim-web-devicons', opt = true}
+            requires = {'kyazdani42/nvim-web-devicons', opt = true},
+            config = [[require('jw-lualine')]]
         }
 
         -- Syntax
@@ -36,14 +40,21 @@ return require('packer').startup(
         use {
             'nvim-telescope/telescope.nvim',
             requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}},
+            config = [[require('jw-telescope')]],
             cmd = 'Telescope'
         }
 
         -- Completion
-        use 'hrsh7th/nvim-compe'
+        use {
+            'hrsh7th/nvim-compe',
+            config = [[require('jw-compe')]]
+        }
 
         -- Pairs
-        use 'windwp/nvim-autopairs'
+        use {
+            'windwp/nvim-autopairs',
+            config = [[require('jw-autopairs')]]
+        }
         use 'tpope/vim-surround'
         use 'tpope/vim-repeat'
 
