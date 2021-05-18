@@ -22,8 +22,7 @@ require'compe'.setup({
         tags = true,
         spell = true,
         calc = false,
-        -- TODO turn on for LSP
-        nvim_lsp = false,
+        nvim_lsp = true,
         nvim_lua = true,
         vsnip = false,
         ultisnips = false

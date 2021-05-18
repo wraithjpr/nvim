@@ -43,7 +43,7 @@ setoption(
 setoption('clipboard', 'unnamed') -- use the '+' register for yank, delete, change and put operations
 setoption('cmdheight', 2) -- number of lines to use for the command-line (default 1)
 setoption('conceallevel', 0) -- make `` visible in markdown files
-setoption('inccommand', 'split') -- shows partial off-screen results in a preview window
+setoption('inccommand', 'nosplit') -- shows partial off-screen results in a preview window
 execute('set linebreak') -- wrap long lines
 execute('set list listchars=tab:→\\ ,trail:▸')  -- in list mode show tabs and trailing spaces
 setoption('mouse', 'a') -- enable the mouse in all modes
@@ -53,7 +53,7 @@ execute('set splitbelow') -- new window from split is below the current one
 execute('set splitright') -- new window is put right of the current one
 setoption('virtualedit', 'block,insert') -- useful for editing tables in Markdown
 execute('set visualbell') -- use visual bell instead of beeping
-setoption('updatetime', 500) -- faster completion in milliseconds (default 4000)
+setoption('updatetime', 250) -- faster completion in milliseconds (default 4000)
 execute('set whichwrap+=<,>,[,]') -- move to next/previous line with theses keys
 execute('set wrap') -- wrap long lines
 

@@ -8,7 +8,14 @@ if fn.empty(fn.glob(install_path)) > 0 then
   execute 'packadd packer.nvim'
 end
 
-execute('autocmd BufWritePost plugins.lua PackerCompile') -- compile on changes to plugins
+--TODO This doesn't seem to work
+--execute('autocmd BufWritePost plugins.lua PackerCompile') -- compile on changes to plugins
+vim.api.nvim_exec([[
+  augroup Packer
+    autocmd!
+    autocmd BufWritePost lua/plugins.lua PackerCompile
+  augroup end
+]], false)
 
 return require('packer').startup(
     function(use)
@@ -34,6 +41,12 @@ return require('packer').startup(
             requires = {'nvim-treesitter/nvim-treesitter-textobjects'},
             run = ':TSUpdate',
             config = [[require('jw-treesitter')]]
+        }
+
+        use {
+            'neovim/nvim-lspconfig',
+            requires = {'kabouzeid/nvim-lspinstall'},
+            config = [[require('jw-lspconfig')]]
         }
 
         -- Finder

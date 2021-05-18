@@ -78,7 +78,7 @@ vim.api.nvim_set_var('maplocalleader', t'<Space>')
 keymap('n', '<CR>', 'i', {noremap = true, silent = true})
 keymap('i', '<Esc>', '<Esc>`^', {noremap = true, silent = true})
 keymap('v', '<Esc>', 'o<Esc>', {noremap = true, silent = true})
-keymap('t', '<Esc>', '<C-\\><C-n>', {noremap = true, silent = true})
+--keymap('t', '<Esc>', '<C-\\><C-n>', {noremap = true, silent = true})
 
 -- Remove highlighting
 keymap('n', '<Space><Space>', ':noh<CR>', {noremap = true, silent = true})
@@ -130,17 +130,18 @@ keymap('i', '<M-f>c', '<C-\\><C-n>:bdelete<CR>', {noremap = true})
 keymap('n', '<M-f>x', ':xit<CR>', {noremap = true})
 keymap('i', '<M-f>x', '<C-\\><C-n>:xit<CR>', {noremap = true})
 
--- External copy/paste
-keymap('n', '<M-e>c', '"+y', {noremap = true})
+-- Copy/paste
+keymap('n', 'Y', 'y$', {noremap = true})
+keymap('n', '<M-e>y', '"+y', {noremap = true})
+keymap('n', '<M-e>yy', '"+yy', {noremap = true})
+keymap('n', '<M-e>Y', '"+y$', {noremap = true})
 keymap('n', '<M-e>p', '"+p', {noremap = true})
 keymap('n', '<M-e>P', '"+P', {noremap = true})
 keymap('n', '<M-y>', '"0y', {noremap = true})
+keymap('n', '<M-yy>', '"0yy', {noremap = true})
+keymap('n', '<M-Y>', '"0y$', {noremap = true})
 keymap('n', '<M-p>', '"0p', {noremap = true})
 keymap('n', '<M-P>', '"0P', {noremap = true})
-keymap('i', '<M-e>p', '"+p', {noremap = true})
-keymap('i', '<M-e>P', '"+P', {noremap = true})
-keymap('i', '<M-p>', '"0p', {noremap = true})
-keymap('i', '<M-P>', '"0P', {noremap = true})
 
 -- Material colour scheme
 keymap('n', '<Leader>c', ':lua require(\'material.functions\').toggle_style()<CR>', { noremap = true, silent = true })

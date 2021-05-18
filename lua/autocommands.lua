@@ -15,3 +15,12 @@ vim.cmd([[
     augroup END
 ]])
 
+--Remap escape to leave terminal mode
+vim.cmd([[
+    augroup Terminal
+        autocmd!
+        autocmd TermOpen * tnoremap <buffer> <Esc> <C-\><C-n>
+        autocmd TermOpen * set nonumber
+    augroup end
+]])
+
