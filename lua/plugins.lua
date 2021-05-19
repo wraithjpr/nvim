@@ -4,8 +4,8 @@ local fn = vim.fn
 local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
 
 if fn.empty(fn.glob(install_path)) > 0 then
-  fn.system({'git', 'clone', 'https://github.com/wbthomason/packer.nvim', install_path})
-  execute 'packadd packer.nvim'
+    fn.system({'git', 'clone', 'https://github.com/wbthomason/packer.nvim', install_path})
+    execute 'packadd packer.nvim'
 end
 
 --TODO This doesn't seem to work
@@ -45,7 +45,6 @@ return require('packer').startup(
 
         use {
             'neovim/nvim-lspconfig',
-            requires = {'kabouzeid/nvim-lspinstall'},
             config = [[require('jw-lspconfig')]]
         }
 
