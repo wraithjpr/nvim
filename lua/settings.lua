@@ -8,6 +8,7 @@ local setoption = vim.api.nvim_set_option
 
 execute('filetype plugin indent on') -- filetype detection, plugin and indent
 execute('syntax on') -- syntax highlighting
+setoption('background', 'dark')
 
 -- Tabs and indenting
 execute('set autoindent') -- take indent for new line from previous line

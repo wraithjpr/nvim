@@ -23,15 +23,23 @@ return require('packer').startup(
         use 'wbthomason/packer.nvim'
 
         -- Colours
+        use {"npxbr/gruvbox.nvim", requires = {"rktjmp/lush.nvim"}}
+        use 'marko-cerovac/material.nvim'
+        use 'tanvirtin/monokai.nvim'
+        use 'shaunsingh/moonlight.nvim'
+        use 'navarasu/onedark.nvim'
+        use 'ishan9299/nvim-solarized-lua'
+
         use {
-            'marko-cerovac/material.nvim',
-            config = [[require('jw-material')]]
+            'norcalli/nvim-colorizer.lua',
+            config = [[require('jw-colorizer')]]
         }
+
 
         -- Window framework
         use {
             'hoob3rt/lualine.nvim',
-            requires = {'kyazdani42/nvim-web-devicons', opt = true},
+            requires = {'kyazdani42/nvim-web-devicons'},
             config = [[require('jw-lualine')]]
         }
 

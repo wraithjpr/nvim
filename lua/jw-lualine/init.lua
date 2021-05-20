@@ -3,7 +3,17 @@ Config for plugin, hoob3rt/lualine.nvim
 See https://github.com/hoob3rt/lualine.nvim
 --]]
 
+--[[
+local my_theme = 'gruvbox'
+local my_theme = 'gruvbox_material'
+local my_theme = 'material-nvim'
+local my_theme = 'moonlight'
+local my_theme = 'onedark'
+local my_theme = 'solarized_dark'
+--]]
+local my_theme = 'gruvbox'
+
 require('lualine').setup {
-  options = { theme = 'material-nvim' }
+  options = { theme = my_theme }
 }
 
