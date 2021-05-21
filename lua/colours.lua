@@ -25,24 +25,18 @@ vim.g.moonlight_contrast = true
 vim.g.moonlight_borders = false
 vim.g.moonlight_disable_background = false
 
-
-
 -- Load the colorscheme
 --[[
 require('jw-gruvbox').set()
 require('material').set()
 require('jw-monokai').set()
 require('moonlight').set()
-require('onedark').set()
-require('jw-solarized').set()
 --]]
 --[[
 local theme = 'jw-gruvbox'
 local theme = 'material'
 local theme = 'jw-monokai'
 local theme = 'moonlight'
-local theme = 'onedark'
-local theme = 'jw-solarized'
 --]]
 require('jw-gruvbox').set()
 

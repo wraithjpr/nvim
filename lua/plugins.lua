@@ -27,14 +27,13 @@ return require('packer').startup(
         use 'marko-cerovac/material.nvim'
         use 'tanvirtin/monokai.nvim'
         use 'shaunsingh/moonlight.nvim'
-        use 'navarasu/onedark.nvim'
-        use 'ishan9299/nvim-solarized-lua'
 
         use {
             'norcalli/nvim-colorizer.lua',
             config = [[require('jw-colorizer')]]
         }
 
+        use {'kyazdani42/nvim-web-devicons', config = [[require('jw-web-devicons')]]}
 
         -- Window framework
         use {
@@ -43,7 +42,7 @@ return require('packer').startup(
             config = [[require('jw-lualine')]]
         }
 
-        -- Syntax
+        -- Syntax and LSP
         use {
             'nvim-treesitter/nvim-treesitter',
             requires = {'nvim-treesitter/nvim-treesitter-textobjects'},
@@ -56,18 +55,22 @@ return require('packer').startup(
             config = [[require('jw-lspconfig')]]
         }
 
-        -- Finder
+        -- Finder and search
         use {
             'nvim-telescope/telescope.nvim',
             requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}},
-            config = [[require('jw-telescope')]],
-            cmd = 'Telescope'
+            config = [[require('jw-telescope')]]
         }
 
-        -- Completion
+        -- Completion and snippets
         use {
             'hrsh7th/nvim-compe',
             config = [[require('jw-compe')]]
+        }
+        use {
+            'hrsh7th/vim-vsnip',
+            requires = {{'hrsh7th/vim-vsnip-integ'}, {'rafamadriz/friendly-snippets'}},
+            config = [[require('jw-vsnip')]]
         }
 
         -- Pairs
