@@ -77,7 +77,7 @@ keymap('v', '<Esc>', 'o<Esc>', {noremap = true, silent = true})
 --keymap('t', '<Esc>', '<C-\\><C-n>', {noremap = true, silent = true})
 
 -- Remove highlighting
-keymap('n', '<Space><Space>', ':noh<CR>', {noremap = true, silent = true})
+keymap('n', '<Leader><Space>', ':noh<CR>', {noremap = true, silent = true})
 
 -- better window movement
 keymap('n', '<C-c>', '<C-w>c', {noremap = true, silent = true})
@@ -91,12 +91,6 @@ keymap('t', '<C-h>', '<C-\\><C-n><C-w>h', {noremap = true, silent = true})
 keymap('t', '<C-j>', '<C-\\><C-n><C-w>j', {noremap = true, silent = true})
 keymap('t', '<C-k>', '<C-\\><C-n><C-w>k', {noremap = true, silent = true})
 keymap('t', '<C-l>', '<C-\\><C-n><C-w>l', {noremap = true, silent = true})
-
--- insert mode window navigation
-keymap('i', '<C-h>', '<C-\\><C-n><C-w>h', {noremap = true, silent = true})
-keymap('i', '<C-j>', '<C-\\><C-n><C-w>j', {noremap = true, silent = true})
-keymap('i', '<C-k>', '<C-\\><C-n><C-w>k', {noremap = true, silent = true})
-keymap('i', '<C-l>', '<C-\\><C-n><C-w>l', {noremap = true, silent = true})
 
 -- resize with arrows
 keymap('n', '<C-Up>', ':resize -2<CR>', {noremap = true, silent = true})
@@ -122,7 +116,6 @@ keymap('i', '<M-f>s', '<C-\\><C-n>:w<CR>a', {noremap = true})
 
 -- Quick exit (buffer)
 keymap('n', '<M-f>c', ':bdelete<CR>', {noremap = true})
-keymap('i', '<M-f>c', '<C-\\><C-n>:bdelete<CR>', {noremap = true})
 keymap('n', '<M-f>x', ':xit<CR>', {noremap = true})
 keymap('i', '<M-f>x', '<C-\\><C-n>:xit<CR>', {noremap = true})
 

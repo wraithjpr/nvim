@@ -54,7 +54,7 @@ execute('set splitbelow') -- new window from split is below the current one
 execute('set splitright') -- new window is put right of the current one
 setoption('virtualedit', 'block,insert') -- useful for editing tables in Markdown
 execute('set visualbell') -- use visual bell instead of beeping
-setoption('updatetime', 250) -- faster completion in milliseconds (default 4000)
+setoption('updatetime', 500) -- faster completion in milliseconds (default 4000)
 execute('set whichwrap+=<,>,[,]') -- move to next/previous line with theses keys
 execute('set wrap') -- wrap long lines
 
