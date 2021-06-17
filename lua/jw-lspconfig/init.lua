@@ -1,6 +1,7 @@
 --[[
 My config for neovim/nvim-lspconfig plugin
 See https://github.com/neovim/nvim-lspconfig/wiki/Complete-init.lua-example
+See https://github.com/neovim/nvim-lspconfig/blob/master/ADVANCED_README.md#setup-function
 --]]
 
 -- Map :Format to vim.lsp.buf.formatting()
@@ -65,7 +66,8 @@ end
 --- [[
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { 'bashls', 'cssls', 'dockerls', 'html', 'jsonls', 'pyright', 'sqlls', 'tsserver', 'yamlls' }
+--local servers = { 'bashls', 'cssls', 'dockerls', 'html', 'jsonls', 'pyright', 'sqlls', 'tsserver', 'yamlls' }
+local servers = { 'bashls', 'cssls', 'dockerls', 'html', 'jsonls', 'pyright', 'tsserver', 'yamlls' }
 
 for _, server in ipairs(servers) do
     lspconfig[server].setup { on_attach = on_attach }
@@ -87,8 +89,14 @@ local eslint = {
 
 local prettier = {formatCommand = 'prettier --stdin-filepath ${INPUT}', formatStdin = true}
 
+-- See https://github.com/Koihik/LuaFormatter
+local lua = {
+    formatCommand = 'lua-format -i --no-keep-simple-function-one-line --column-limit=120',
+    formatStdin = true
+}
+
 require 'lspconfig'.efm.setup {
-    cmd = {'/usr/bin/efm-langserver'},
+    cmd = {'efm-langserver'},
     on_attach = on_attach,
     filetypes = {'lua', 'python', 'javascriptreact', 'javascript', 'typescript','typescriptreact','sh', 'html', 'css', 'json', 'yaml', 'markdown'},
     init_options = {documentFormatting = true, codeAction = false},
@@ -100,12 +108,7 @@ require 'lspconfig'.efm.setup {
             javascript = {eslint, prettier},
             javascriptreact = {eslint, prettier},
             json = {prettier},
-            lua = {
-                {
-                    formatCommand = 'lua-format -i --no-keep-simple-function-one-line --column-limit=120',
-                    formatStdin = true
-                }
-            },
+            lua = {lua},
             markdown = {
                 {
                     lintCommand = 'markdownlint --config=.markdownlint.yaml --stdin',
@@ -141,12 +144,12 @@ require 'lspconfig'.efm.setup {
 -- Config for sumneko_lua language server
 -- See https://github.com/sumneko/lua-language-server
 --]]
-local sumneko_root_path = '/usr/share/lua-language-server'
-local sumneko_binary = '/usr/bin/lua-language-server'
+local sumneko_root_path = '/Users/james.wraith/Repos/lua-language-server/build/macos/bin'
+local sumneko_binary = '/Users/james.wraith/.local/bin/lua-language-server'
 
 require'lspconfig'.sumneko_lua.setup {
-    cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"},
-    filetypes = { "lua" },
+    cmd = {sumneko_binary, '-E', sumneko_root_path .. '/main.lua'},
+    filetypes = { 'lua' },
     on_attach = on_attach,
     settings = {
         Lua = {
@@ -173,5 +176,54 @@ require'lspconfig'.sumneko_lua.setup {
             }
         }
     }
+}
+
+--[[
+-- Config for jdtls language server for Java
+-- See https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#jdtls
+-- Download Eclipse JDT LS from https://projects.eclipse.org/projects/eclipse.jdt.ls/downloads
+--   and extract it into ~/.local/share/javalsp
+--   with `cd ~/.local/share/javalsp && tar -xf ~/Downloads/jdt-language-server-latest.tar.gz`
+-- Download lombok jar file from https://projectlombok.org/download
+--   and extract it into ~/.local/share/lombok
+--   with `cd ~/.local/share/lombok && cp ~/Downloads/lombok.jar .`
+-- See https://github.com/mfussenegger/nvim-jdtls/wiki/Sample-Configurations for how to do Lombok
+-- See https://github.com/ChristianChiarulli/LunarVim/blob/master/utils/bin/java-linux-ls for how to do Lombok
+--]]
+
+local user_home = vim.fn.expand('$HOME')
+local java_home = vim.fn.expand('$JAVA_HOME')
+local java_binary = java_home .. '/bin/java'
+local jdtls_home = user_home .. '/.local/share/javalsp'
+local jdtls_jar = jdtls_home .. '/plugins/org.eclipse.equinox.launcher_1.6.200.v20210416-2027.jar'
+local jdtls_config = jdtls_home .. '/config_mac'
+local lombok_home = user_home .. '/.local/share/lombok'
+local lombok_jar = lombok_home .. '/lombok.jar'
+local workspace = user_home .. '/workspace'
+local log_level = 'ERROR'
+
+require'lspconfig'.jdtls.setup{
+    cmd = {
+        java_binary,
+        '-javaagent:' .. lombok_jar,
+        '-Declipse.application=org.eclipse.jdt.ls.core.id1',
+        '-Dosgi.bundles.defaultStartLevel=4',
+        '-Declipse.product=org.eclipse.jdt.ls.core.product',
+        '-Dlog.protocol=true',
+        '-Dlog.level=' .. log_level,
+        '-Xms1g', '-Xmx2G',
+        '-jar', jdtls_jar,
+        '-configuration', jdtls_config,
+        '-data', workspace,
+        '--add-modules=ALL-SYSTEM',
+        '--add-opens', 'java.base/java.util=ALL-UNNAMED',
+        '--add-opens', 'java.base/java.lang=ALL-UNNAMED'
+    },
+    cmd_env = {
+        JAVA_HOME = java_home
+    },
+    filetypes = { 'java' },
+    on_attach = on_attach,
+    root_dir = lspconfig.util.root_pattern('pom.xml', '.git')
 }
 
