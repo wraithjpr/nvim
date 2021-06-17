@@ -38,5 +38,5 @@ local theme = 'material'
 local theme = 'jw-monokai'
 local theme = 'moonlight'
 --]]
-require('jw-gruvbox').set()
+require('moonlight').set()
 

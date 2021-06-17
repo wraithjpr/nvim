@@ -41,7 +41,7 @@ setoption(
 ) -- ignore these file types when completing names and in explorer
 
 -- Window behavior
-setoption('clipboard', 'unnamed') -- use the '+' register for yank, delete, change and put operations
+--setoption('clipboard', 'unnamed') -- use the '*' register for yank, delete, change and put operations
 setoption('cmdheight', 2) -- number of lines to use for the command-line (default 1)
 setoption('conceallevel', 0) -- make `` visible in markdown files
 setoption('inccommand', 'nosplit') -- shows partial off-screen results in a preview window
