@@ -7,6 +7,7 @@ See https://github.com/neovim/nvim-lspconfig/blob/master/ADVANCED_README.md#setu
 -- Map :Format to vim.lsp.buf.formatting()
 vim.cmd([[ command! Format execute 'lua vim.lsp.buf.formatting()' ]])
 
+local user_home = vim.fn.expand('$HOME')
 
 local lspconfig = require('lspconfig')
 
@@ -67,7 +68,7 @@ end
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
 --local servers = { 'bashls', 'cssls', 'dockerls', 'html', 'jsonls', 'pyright', 'sqlls', 'tsserver', 'yamlls' }
-local servers = { 'bashls', 'cssls', 'dockerls', 'html', 'jsonls', 'pyright', 'tsserver', 'yamlls' }
+local servers = { 'bashls', 'cssls', 'dockerls', 'html', 'pyright', 'tsserver', 'yamlls' }
 
 for _, server in ipairs(servers) do
     lspconfig[server].setup { on_attach = on_attach }
@@ -141,11 +142,32 @@ require 'lspconfig'.efm.setup {
 }
 
 --[[
+-- Config for vscode-json-language-server
+-- See https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#jsonls
+-- See https://github.com/hrsh7th/vscode-langservers-extracted
+--]]
+
+require'lspconfig'.jsonls.setup{
+    cmd = { 'vscode-json-language-server', '--stdio' },
+    filetypes = { 'json' },
+    on_attach = on_attach,
+    init_options = { provideFormatter = true },
+    root_dir = lspconfig.util.root_pattern('.git', vim.fn.getcwd()),
+    commands = {
+      Format = {
+        function()
+          vim.lsp.buf.range_formatting({},{0,0},{vim.fn.line("$"),0})
+        end
+      }
+    }
+}
+
+--[[
 -- Config for sumneko_lua language server
 -- See https://github.com/sumneko/lua-language-server
 --]]
-local sumneko_root_path = '/Users/james.wraith/Repos/lua-language-server/build/macos/bin'
-local sumneko_binary = '/Users/james.wraith/.local/bin/lua-language-server'
+local sumneko_root_path = user_home .. '/Repos/lua-language-server/build/macos/bin'
+local sumneko_binary = user_home .. '/.local/bin/lua-language-server'
 
 require'lspconfig'.sumneko_lua.setup {
     cmd = {sumneko_binary, '-E', sumneko_root_path .. '/main.lua'},
@@ -191,7 +213,6 @@ require'lspconfig'.sumneko_lua.setup {
 -- See https://github.com/ChristianChiarulli/LunarVim/blob/master/utils/bin/java-linux-ls for how to do Lombok
 --]]
 
-local user_home = vim.fn.expand('$HOME')
 local java_home = vim.fn.expand('$JAVA_HOME')
 local java_binary = java_home .. '/bin/java'
 local jdtls_home = user_home .. '/.local/share/javalsp'
