@@ -83,11 +83,14 @@ return require('packer').startup(
 
         -- Markdown preview
         use {
-            "iamcco/markdown-preview.nvim",
+            'iamcco/markdown-preview.nvim',
             run = function() vim.fn['mkdp#util#install']() end,
             ft = "markdown",
             cmd = 'MarkdownPreview'
         }
+
+        -- Wiki
+        use { 'vimwiki/vimwiki', config = [[require('jw-vimwiki')]] }
     end
 )
 
