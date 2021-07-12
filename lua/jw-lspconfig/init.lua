@@ -166,8 +166,10 @@ require'lspconfig'.jsonls.setup{
 -- Config for sumneko_lua language server
 -- See https://github.com/sumneko/lua-language-server
 --]]
-local sumneko_root_path = user_home .. '/Repos/lua-language-server/build/macos/bin'
-local sumneko_binary = user_home .. '/.local/bin/lua-language-server'
+--local sumneko_root_path = user_home .. '/Repos/lua-language-server/build/macos/bin'
+--local sumneko_binary = user_home .. '/.local/bin/lua-language-server'
+local sumneko_root_path = '/usr/share/lua-language-server'
+local sumneko_binary = '/usr/bin/lua-language-server'
 
 require'lspconfig'.sumneko_lua.setup {
     cmd = {sumneko_binary, '-E', sumneko_root_path .. '/main.lua'},
@@ -217,7 +219,8 @@ local java_home = vim.fn.expand('$JAVA_HOME')
 local java_binary = java_home .. '/bin/java'
 local jdtls_home = user_home .. '/.local/share/javalsp'
 local jdtls_jar = jdtls_home .. '/plugins/org.eclipse.equinox.launcher_1.6.200.v20210416-2027.jar'
-local jdtls_config = jdtls_home .. '/config_mac'
+--local jdtls_config = jdtls_home .. '/config_mac'
+local jdtls_config = jdtls_home .. '/config_linux'
 local lombok_home = user_home .. '/.local/share/lombok'
 local lombok_jar = lombok_home .. '/lombok.jar'
 local workspace = user_home .. '/workspace'
