@@ -25,7 +25,7 @@ execute('set relativenumber') -- show relative line number in front of each line
 setoption('signcolumn', 'yes') -- always show the sign column
 
 -- Search behaviour & code completion
-setoption('completeopt', 'menuone,noselect') -- options for Insert mode completion; required by compe
+setoption('completeopt', 'menu,menuone,noselect') -- options for Insert mode completion; required by compe
 execute('set hlsearch') -- highlight search match
 execute('set ignorecase') -- ignore case in search patterns
 execute('set incsearch') -- show where the pattern matches as it's typed
@@ -48,7 +48,7 @@ setoption('inccommand', 'nosplit') -- shows partial off-screen results in a prev
 execute('set linebreak') -- wrap long lines
 execute('set list listchars=tab:→\\ ,trail:▸')  -- in list mode show tabs and trailing spaces
 setoption('mouse', 'a') -- enable the mouse in all modes
-setoption('pumheight', 10) -- pop up menu has 10 items (default 0 - use available screen space)
+setoption('pumheight', 20) -- pop up menu has 10 items (default 0 - use available screen space)
 setoption('sidescroll', 0) -- Put the cursor in middle of the screen when wrap is off and cursor goes off screen (default 1)
 execute('set splitbelow') -- new window from split is below the current one
 execute('set splitright') -- new window is put right of the current one
@@ -56,7 +56,7 @@ setoption('virtualedit', 'block,insert') -- useful for editing tables in Markdow
 execute('set visualbell') -- use visual bell instead of beeping
 setoption('updatetime', 500) -- faster completion in milliseconds (default 4000)
 execute('set whichwrap+=<,>,[,]') -- move to next/previous line with theses keys
-execute('set wrap') -- wrap long lines
+execute('set nowrap') -- do not wrap long lines
 
 -- Colours
 setoption('t_Co', '256') -- support 256 colours
