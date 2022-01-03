@@ -7,6 +7,54 @@ See https://github.com/neovim/nvim-lspconfig/blob/master/ADVANCED_README.md#setu
 -- Map :Format to vim.lsp.buf.formatting()
 vim.cmd([[ command! Format execute 'lua vim.lsp.buf.formatting()' ]])
 
+-- Set a border for floating popups
+-- Use a sharp border with `FloatBorder` highlights
+
+vim.cmd [[highlight FloatBorder guifg=white guibg=black]]
+--vim.cmd [[autocmd ColorScheme * highlight NormalFloat guibg=#1f2335]]
+--vim.cmd [[autocmd ColorScheme * highlight FloatBorder guifg=white guibg=#1f2335]]
+
+--[[
+local border = {
+      {"🭽", "FloatBorder"},
+      {"▔", "FloatBorder"},
+      {"🭾", "FloatBorder"},
+      {"▕", "FloatBorder"},
+      {"🭿", "FloatBorder"},
+      {"▁", "FloatBorder"},
+      {"🭼", "FloatBorder"},
+      {"▏", "FloatBorder"},
+}
+--]]
+
+vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
+    vim.lsp.handlers.hover, { border = 'single' }
+)
+vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
+    vim.lsp.handlers.signature_help, { border = 'single' }
+)
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+    vim.lsp.diagnostic.on_publish_diagnostics, {
+        virtual_text = { severity = {min=vim.diagnostic.severity.ERROR}},
+        float = { source = 'if_many' },
+        signs = true,
+        underline = true,
+        update_in_insert = false,
+        severity_sort = false
+    }
+)
+
+-- You will likely want to reduce updatetime which affects CursorHold
+-- note: this setting is global and should be set only once
+-- vim.o.updatetime = 250
+vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float({ border = 'single', focus = false })]]
+
+local signs = { Error = "", Warn = "", Hint = "", Info = "" }
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end
+
 local user_home = vim.fn.expand('$HOME')
 
 local lspconfig = require('lspconfig')
@@ -53,10 +101,8 @@ local on_attach = function(client, bufnr)
     buf_set_keymap('n', '<M-l>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
     buf_set_keymap('n', '<M-l>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
     buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-    buf_set_keymap('n', '<M-l>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-    buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-    buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-    buf_set_keymap('n', '<M-l>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+    buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
+    buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
     buf_set_keymap("n", "<M-l>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 
     -- Document highlights
@@ -64,16 +110,26 @@ local on_attach = function(client, bufnr)
 
 end
 
---- [[
+-- Additional capabilities supported by nvim-cmp
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+
+---[[
 -- Use a loop to conveniently call 'setup' on multiple servers and
+-- See https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 -- map buffer local keybindings when the language server attaches
 --local servers = { 'bashls', 'cssls', 'dockerls', 'html', 'jsonls', 'pyright', 'sqlls', 'tsserver', 'yamlls' }
 local servers = { 'bashls', 'cssls', 'dockerls', 'html', 'pyright', 'tsserver', 'yamlls' }
 
 for _, server in ipairs(servers) do
-    lspconfig[server].setup { on_attach = on_attach }
+    lspconfig[server].setup {
+        on_attach = on_attach,
+        capabilities = capabilities,
+        flags = {
+            debounce_text_changes = 150
+        }
+    }
 end
--- ]]
+--]]
 
 --[[
 -- Config for efm language server
@@ -99,6 +155,7 @@ local lua = {
 require 'lspconfig'.efm.setup {
     cmd = {'efm-langserver'},
     on_attach = on_attach,
+    capabilities = capabilities,
     filetypes = {'lua', 'python', 'javascriptreact', 'javascript', 'typescript','typescriptreact','sh', 'html', 'css', 'json', 'yaml', 'markdown'},
     init_options = {documentFormatting = true, codeAction = false},
     settings = {
@@ -151,6 +208,7 @@ require'lspconfig'.jsonls.setup{
     cmd = { 'vscode-json-language-server', '--stdio' },
     filetypes = { 'json' },
     on_attach = on_attach,
+    capabilities = capabilities,
     init_options = { provideFormatter = true },
     root_dir = lspconfig.util.root_pattern('.git', vim.fn.getcwd()),
     commands = {
@@ -166,13 +224,16 @@ require'lspconfig'.jsonls.setup{
 -- Config for sumneko_lua language server
 -- See https://github.com/sumneko/lua-language-server
 --]]
-local sumneko_root_path = user_home .. '/Repos/lua-language-server/build/macos/bin'
-local sumneko_binary = user_home .. '/.local/bin/lua-language-server'
+--local sumneko_root_path = user_home .. '/Repos/lua-language-server/build/macos/bin'
+--local sumneko_binary = user_home .. '/.local/bin/lua-language-server'
+local sumneko_root_path = '/usr/share/lua-language-server'
+local sumneko_binary = '/usr/bin/lua-language-server'
 
 require'lspconfig'.sumneko_lua.setup {
     cmd = {sumneko_binary, '-E', sumneko_root_path .. '/main.lua'},
     filetypes = { 'lua' },
     on_attach = on_attach,
+    capabilities = capabilities,
     settings = {
         Lua = {
             runtime = {
@@ -217,7 +278,8 @@ local java_home = vim.fn.expand('$JAVA_HOME')
 local java_binary = java_home .. '/bin/java'
 local jdtls_home = user_home .. '/.local/share/javalsp'
 local jdtls_jar = jdtls_home .. '/plugins/org.eclipse.equinox.launcher_1.6.200.v20210416-2027.jar'
-local jdtls_config = jdtls_home .. '/config_mac'
+--local jdtls_config = jdtls_home .. '/config_mac'
+local jdtls_config = jdtls_home .. '/config_linux'
 local lombok_home = user_home .. '/.local/share/lombok'
 local lombok_jar = lombok_home .. '/lombok.jar'
 local workspace = user_home .. '/workspace'
@@ -245,6 +307,7 @@ require'lspconfig'.jdtls.setup{
     },
     filetypes = { 'java' },
     on_attach = on_attach,
+    capabilities = capabilities,
     root_dir = lspconfig.util.root_pattern('pom.xml', '.git')
 }
 

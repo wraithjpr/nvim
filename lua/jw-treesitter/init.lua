@@ -10,7 +10,7 @@ See:
 
 require'nvim-treesitter.configs'.setup {
     --ensure_installed = {'bash', 'c', 'comment', 'css', 'dockerfile', 'graphql', 'haskell', 'html', 'java', 'javascript', 'jsdoc', 'json', 'jsonc', 'lua', 'python', 'query', 'regex', 'typescript', 'yaml'},
-    ensure_installed = {'bash', 'c', 'comment', 'css', 'dockerfile', 'html', 'java', 'javascript', 'jsdoc', 'json', 'jsonc', 'lua', 'python', 'query', 'regex', 'typescript', 'yaml'},
+    ensure_installed = {'bash', 'c', 'comment', 'css', 'dockerfile', 'html', 'java', 'javascript', 'jsdoc', 'json', 'json5', 'lua', 'make', 'markdown', 'python', 'query', 'regex', 'typescript', 'vim', 'yaml'},
     highlight = {enable = true, use_languagetree = true},
     indent = {enable = true},
     incremental_selection = {
